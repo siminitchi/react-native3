@@ -22,7 +22,6 @@ export default function ExploreScreen() {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Încarcă rețetele dintr-o categorie la mount sau când se schimbă categoria
   useEffect(() => {
     if (!query) {
       loadCategory(category);
@@ -85,26 +84,29 @@ export default function ExploreScreen() {
         </Pressable>
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.chipsRow}
-      >
-        {CATEGORIES.map((c) => (
-          <Pressable
-            key={c}
-            style={[styles.chip, category === c && styles.chipActive]}
-            onPress={() => {
-              setQuery('');
-              setCategory(c);
-            }}
-          >
-            <Text style={[styles.chipText, category === c && styles.chipTextActive]}>
-              {c}
-            </Text>
-          </Pressable>
-        ))}
-      </ScrollView>
+      {/* ScrollView orizontal cu inaltime fixa - altfel chip-urile se intind pe verticala */}
+      <View style={styles.chipsWrapper}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.chipsRow}
+        >
+          {CATEGORIES.map((c) => (
+            <Pressable
+              key={c}
+              style={[styles.chip, category === c && styles.chipActive]}
+              onPress={() => {
+                setQuery('');
+                setCategory(c);
+              }}
+            >
+              <Text style={[styles.chipText, category === c && styles.chipTextActive]}>
+                {c}
+              </Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+      </View>
 
       {loading ? (
         <ActivityIndicator size="large" color="#e2725b" style={{ marginTop: 30 }} />
@@ -144,11 +146,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   searchBtnText: { color: '#fff', fontWeight: '700' },
-  chipsRow: { paddingVertical: 6, gap: 8 },
+  // Wrapper-ul forteaza inaltimea chip-urilor sa fie cea naturala, nu sa umple spatiul
+  chipsWrapper: { height: 44, marginBottom: 10 },
+  chipsRow: { alignItems: 'center', paddingHorizontal: 2 },
   chip: {
     paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
+    height: 36,
+    justifyContent: 'center',
+    borderRadius: 18,
     backgroundColor: '#eee',
     marginRight: 8,
   },

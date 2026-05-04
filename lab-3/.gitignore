@@ -12,3 +12,8 @@ npm-debug.*
 *.orig.*
 .DS_Store
 .env
+android/ ios/
+android/
+ios/
+android/
+ios/

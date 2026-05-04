@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { initDatabase } from '../database/db';
 
-// Navigatorul rădăcină = Stack (1/2 navigatori)
+// Navigatorul rădăcină = Stack
 // Tab-urile sunt definite în (tabs)/_layout.js (al 2-lea navigator)
 export default function RootLayout() {
   const [ready, setReady] = useState(false);
@@ -34,6 +34,9 @@ export default function RootLayout() {
         headerStyle: { backgroundColor: '#e2725b' },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: '700' },
+        // Pe iOS ascundem textul "(tabs)" de langa sageata back
+        headerBackTitle: 'Înapoi',
+        headerBackButtonDisplayMode: 'minimal',
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
